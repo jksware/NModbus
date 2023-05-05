@@ -269,9 +269,9 @@ namespace NModbus.Extensions.Enron
             {
                 for (int i = 0; i < response.Data.ByteCount; i += 8)
                 {
-                    registers[i / 8] = (uint)(
-                        data.NetworkBytes[i + 0] << 56 | data.NetworkBytes[i + 1] << 48 | data.NetworkBytes[i + 2] << 40 | data.NetworkBytes[i + 3] << 32 |
-                        data.NetworkBytes[i + 4] << 24 | data.NetworkBytes[i + 5] << 16 | data.NetworkBytes[i + 6] <<  8 | data.NetworkBytes[i + 7] <<  0
+                    registers[i / 8] = (ulong)(
+                        (long)(data.NetworkBytes[i + 0] << 24 | data.NetworkBytes[i + 1] << 16 | data.NetworkBytes[i + 2] <<  8 | data.NetworkBytes[i + 3] <<  0) << 32 |
+                        (long)(data.NetworkBytes[i + 4] << 24 | data.NetworkBytes[i + 5] << 16 | data.NetworkBytes[i + 6] <<  8 | data.NetworkBytes[i + 7] <<  0)
                     );
                 }
             }
