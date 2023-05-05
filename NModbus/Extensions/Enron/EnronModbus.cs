@@ -33,15 +33,36 @@ namespace NModbus.Extensions.Enron
 			return PerformReadRegisters(master, request);
 		}
 
-		/// <summary>
-		///    Reads contiguous block of holding registers.
-		/// </summary>
-		/// <param name="master">The Modbus master.</param>
-		/// <param name="slaveAddress">Address of device to read values from.</param>
-		/// <param name="startAddress">Address to begin reading.</param>
-		/// <param name="numberOfPoints">Number of holding registers to read.</param>
-		/// <returns>Holding registers status.</returns>
-		public static uint[] ReadHoldingRegisters32(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        /// <summary>
+        ///    Reads contiguous block of input registers with 64 bit register size.
+        /// </summary>
+        /// <param name="master">The Modbus master.</param>
+        /// <param name="slaveAddress">Address of device to read values from.</param>
+        /// <param name="startAddress">Address to begin reading.</param>
+        /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <returns>Input registers status.</returns>
+        public static ulong[] ReadInputRegisters64(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        {
+            ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 31);
+
+            var request = new ReadHoldingInputRegisters64Request(
+                ModbusFunctionCodes.ReadInputRegisters,
+                slaveAddress,
+                startAddress,
+                numberOfPoints);
+
+            return PerformReadRegisters(master, request);
+        }
+
+        /// <summary>
+        ///    Reads contiguous block of holding registers.
+        /// </summary>
+        /// <param name="master">The Modbus master.</param>
+        /// <param name="slaveAddress">Address of device to read values from.</param>
+        /// <param name="startAddress">Address to begin reading.</param>
+        /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <returns>Holding registers status.</returns>
+        public static uint[] ReadHoldingRegisters32(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
 		{
 			ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 62);
 
@@ -54,15 +75,36 @@ namespace NModbus.Extensions.Enron
 			return PerformReadRegisters(master, request);
 		}
 
-		/// <summary>
-		///    Asynchronously reads contiguous block of input registers with 32 bit register size.
-		/// </summary>
-		/// <param name="master">The Modbus master.</param>
-		/// <param name="slaveAddress">Address of device to read values from.</param>
-		/// <param name="startAddress">Address to begin reading.</param>
-		/// <param name="numberOfPoints">Number of holding registers to read.</param>
-		/// <returns>A task that represents the asynchronous read operation.</returns>
-		public static Task<uint[]> ReadInputRegisters32Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        /// <summary>
+        ///    Reads contiguous block of holding registers.
+        /// </summary>
+        /// <param name="master">The Modbus master.</param>
+        /// <param name="slaveAddress">Address of device to read values from.</param>
+        /// <param name="startAddress">Address to begin reading.</param>
+        /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <returns>Holding registers status.</returns>
+        public static ulong[] ReadHoldingRegisters64(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        {
+            ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 31);
+
+            var request = new ReadHoldingInputRegisters64Request(
+                ModbusFunctionCodes.ReadHoldingRegisters,
+                slaveAddress,
+                startAddress,
+                numberOfPoints);
+
+            return PerformReadRegisters(master, request);
+        }
+
+        /// <summary>
+        ///    Asynchronously reads contiguous block of input registers with 32 bit register size.
+        /// </summary>
+        /// <param name="master">The Modbus master.</param>
+        /// <param name="slaveAddress">Address of device to read values from.</param>
+        /// <param name="startAddress">Address to begin reading.</param>
+        /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <returns>A task that represents the asynchronous read operation.</returns>
+        public static Task<uint[]> ReadInputRegisters32Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
 		{
 			ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 125);
 
@@ -75,15 +117,36 @@ namespace NModbus.Extensions.Enron
 			return PerformReadRegistersAsync(master, request);
 		}
 
-		/// <summary>
-		///    Asynchronously reads contiguous block of holding registers.
-		/// </summary>
-		/// <param name="master">The Modbus master.</param>
-		/// <param name="slaveAddress">Address of device to read values from.</param>
-		/// <param name="startAddress">Address to begin reading.</param>
-		/// <param name="numberOfPoints">Number of holding registers to read.</param>
-		/// <returns>A task that represents the asynchronous read operation.</returns>
-		public static Task<uint[]> ReadHoldingRegisters32Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        /// <summary>
+        ///    Asynchronously reads contiguous block of input registers with 32 bit register size.
+        /// </summary>
+        /// <param name="master">The Modbus master.</param>
+        /// <param name="slaveAddress">Address of device to read values from.</param>
+        /// <param name="startAddress">Address to begin reading.</param>
+        /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <returns>A task that represents the asynchronous read operation.</returns>
+        public static Task<ulong[]> ReadInputRegisters64Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        {
+            ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 62);
+
+            var request = new ReadHoldingInputRegisters64Request(
+                ModbusFunctionCodes.ReadInputRegisters,
+                slaveAddress,
+                startAddress,
+                numberOfPoints);
+
+            return PerformReadRegistersAsync(master, request);
+        }
+
+        /// <summary>
+        ///    Asynchronously reads contiguous block of holding registers.
+        /// </summary>
+        /// <param name="master">The Modbus master.</param>
+        /// <param name="slaveAddress">Address of device to read values from.</param>
+        /// <param name="startAddress">Address to begin reading.</param>
+        /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <returns>A task that represents the asynchronous read operation.</returns>
+        public static Task<uint[]> ReadHoldingRegisters32Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
 		{
 			ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 125);
 
@@ -96,14 +159,35 @@ namespace NModbus.Extensions.Enron
 			return PerformReadRegistersAsync(master, request);
 		}
 
-		/// <summary>
-		///     Write a single 16 bit holding register.
-		/// </summary>
-		/// <param name="master">The Modbus master.</param>
-		/// <param name="slaveAddress">Address of the device to write to.</param>
-		/// <param name="registerAddress">Address to write.</param>
-		/// <param name="value">Value to write.</param>
-		public static void WriteSingleRegister32(
+        /// <summary>
+        ///    Asynchronously reads contiguous block of holding registers.
+        /// </summary>
+        /// <param name="master">The Modbus master.</param>
+        /// <param name="slaveAddress">Address of device to read values from.</param>
+        /// <param name="startAddress">Address to begin reading.</param>
+        /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <returns>A task that represents the asynchronous read operation.</returns>
+        public static Task<ulong[]> ReadHoldingRegisters64Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        {
+            ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 62);
+
+            var request = new ReadHoldingInputRegisters64Request(
+                ModbusFunctionCodes.ReadHoldingRegisters,
+                slaveAddress,
+                startAddress,
+                numberOfPoints);
+
+            return PerformReadRegistersAsync(master, request);
+        }
+
+        /// <summary>
+        ///     Write a single 32 bit holding register.
+        /// </summary>
+        /// <param name="master">The Modbus master.</param>
+        /// <param name="slaveAddress">Address of the device to write to.</param>
+        /// <param name="registerAddress">Address to write.</param>
+        /// <param name="value">Value to write.</param>
+        public static void WriteSingleRegister32(
 			this IModbusMaster master,
 			byte slaveAddress,
 			ushort registerAddress,
@@ -153,7 +237,12 @@ namespace NModbus.Extensions.Enron
 			return Task.Factory.StartNew(() => PerformReadRegisters(master, request));
 		}
 
-		private static uint[] PerformReadRegisters(IModbusMaster master, ReadHoldingInputRegisters32Request request)
+        private static Task<ulong[]> PerformReadRegistersAsync(IModbusMaster master, ReadHoldingInputRegisters64Request request)
+        {
+            return Task.Factory.StartNew(() => PerformReadRegisters(master, request));
+        }
+
+        private static uint[] PerformReadRegisters(IModbusMaster master, ReadHoldingInputRegisters32Request request)
 		{
 			ReadHoldingInputRegistersResponse response = master.Transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
 
@@ -170,7 +259,27 @@ namespace NModbus.Extensions.Enron
 			return registers.Take(request.NumberOfPoints).ToArray();
 		}
 
-		private static void ValidateNumberOfPoints(string argumentName, ushort numberOfPoints, ushort maxNumberOfPoints)
+        private static ulong[] PerformReadRegisters(IModbusMaster master, ReadHoldingInputRegisters64Request request)
+        {
+            ReadHoldingInputRegistersResponse response = master.Transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
+
+            ulong[] registers = new ulong[request.NumberOfPoints];
+
+            if (response.Data is IModbusMessageDataCollection data)
+            {
+                for (int i = 0; i < response.Data.ByteCount; i += 8)
+                {
+                    registers[i / 8] = (uint)(
+                        data.NetworkBytes[i + 0] << 56 | data.NetworkBytes[i + 1] << 48 | data.NetworkBytes[i + 2] << 40 | data.NetworkBytes[i + 3] << 32 |
+                        data.NetworkBytes[i + 4] << 24 | data.NetworkBytes[i + 5] << 16 | data.NetworkBytes[i + 6] <<  8 | data.NetworkBytes[i + 7] <<  0
+                    );
+                }
+            }
+
+            return registers.Take(request.NumberOfPoints).ToArray();
+        }
+
+        private static void ValidateNumberOfPoints(string argumentName, ushort numberOfPoints, ushort maxNumberOfPoints)
 		{
 			if (numberOfPoints < 1 || numberOfPoints > maxNumberOfPoints)
 			{
