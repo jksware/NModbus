@@ -40,8 +40,10 @@ namespace NModbus.Extensions.Enron
         /// <param name="slaveAddress">Address of device to read values from.</param>
         /// <param name="startAddress">Address to begin reading.</param>
         /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <param name="bytesPerPoint">Number of bytes per point.</param>
         /// <returns>Input registers status.</returns>
-        public static ulong[] ReadInputRegisters64(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        public static ulong[] ReadInputRegisters64(this IModbusMaster master, byte slaveAddress, ushort startAddress, 
+            ushort numberOfPoints, ushort bytesPerPoint = 8)
         {
             ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 31);
 
@@ -49,7 +51,8 @@ namespace NModbus.Extensions.Enron
                 ModbusFunctionCodes.ReadInputRegisters,
                 slaveAddress,
                 startAddress,
-                numberOfPoints);
+                numberOfPoints,
+                bytesPerPoint);
 
             return PerformReadRegisters(master, request);
         }
@@ -82,8 +85,10 @@ namespace NModbus.Extensions.Enron
         /// <param name="slaveAddress">Address of device to read values from.</param>
         /// <param name="startAddress">Address to begin reading.</param>
         /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <param name="bytesPerPoint">Number of bytes per point.</param>
         /// <returns>Holding registers status.</returns>
-        public static ulong[] ReadHoldingRegisters64(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        public static ulong[] ReadHoldingRegisters64(this IModbusMaster master, byte slaveAddress, ushort startAddress, 
+            ushort numberOfPoints, ushort bytesPerPoint)
         {
             ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 31);
 
@@ -91,7 +96,8 @@ namespace NModbus.Extensions.Enron
                 ModbusFunctionCodes.ReadHoldingRegisters,
                 slaveAddress,
                 startAddress,
-                numberOfPoints);
+                numberOfPoints,
+                bytesPerPoint);
 
             return PerformReadRegisters(master, request);
         }
@@ -124,8 +130,10 @@ namespace NModbus.Extensions.Enron
         /// <param name="slaveAddress">Address of device to read values from.</param>
         /// <param name="startAddress">Address to begin reading.</param>
         /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <param name="bytesPerPoint">Number of bytes per point.</param>
         /// <returns>A task that represents the asynchronous read operation.</returns>
-        public static Task<ulong[]> ReadInputRegisters64Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        public static Task<ulong[]> ReadInputRegisters64Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, 
+            ushort numberOfPoints, ushort bytesPerPoint)
         {
             ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 62);
 
@@ -133,7 +141,8 @@ namespace NModbus.Extensions.Enron
                 ModbusFunctionCodes.ReadInputRegisters,
                 slaveAddress,
                 startAddress,
-                numberOfPoints);
+                numberOfPoints,
+                bytesPerPoint);
 
             return PerformReadRegistersAsync(master, request);
         }
@@ -166,8 +175,10 @@ namespace NModbus.Extensions.Enron
         /// <param name="slaveAddress">Address of device to read values from.</param>
         /// <param name="startAddress">Address to begin reading.</param>
         /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <param name="bytesPerPoint">Number of bytes per point.</param>
         /// <returns>A task that represents the asynchronous read operation.</returns>
-        public static Task<ulong[]> ReadHoldingRegisters64Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, ushort numberOfPoints)
+        public static Task<ulong[]> ReadHoldingRegisters64Async(this IModbusMaster master, byte slaveAddress, ushort startAddress, 
+            ushort numberOfPoints, ushort bytesPerPoint)
         {
             ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 62);
 
@@ -175,7 +186,8 @@ namespace NModbus.Extensions.Enron
                 ModbusFunctionCodes.ReadHoldingRegisters,
                 slaveAddress,
                 startAddress,
-                numberOfPoints);
+                numberOfPoints,
+                bytesPerPoint);
 
             return PerformReadRegistersAsync(master, request);
         }
@@ -256,27 +268,27 @@ namespace NModbus.Extensions.Enron
 				}
 			}
 
-			return registers.Take(request.NumberOfPoints).ToArray();
+			return registers;
 		}
 
         private static ulong[] PerformReadRegisters(IModbusMaster master, ReadHoldingInputRegisters64Request request)
         {
             ReadHoldingInputRegistersResponse response = master.Transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
 
-            ulong[] registers = new ulong[request.NumberOfPoints];
+            ulong[] registers = new ulong[request.NumberOfPoints * request.BytesPerPoint / 8];
 
             if (response.Data is IModbusMessageDataCollection data)
             {
                 for (int i = 0; i < response.Data.ByteCount; i += 8)
                 {
                     registers[i / 8] = (ulong)(
-                        (long)(data.NetworkBytes[i + 0] << 24 | data.NetworkBytes[i + 1] << 16 | data.NetworkBytes[i + 2] <<  8 | data.NetworkBytes[i + 3] <<  0) << 32 |
-                        (long)(data.NetworkBytes[i + 4] << 24 | data.NetworkBytes[i + 5] << 16 | data.NetworkBytes[i + 6] <<  8 | data.NetworkBytes[i + 7] <<  0)
+                        (long)(data.NetworkBytes[i + 0] << 24 | data.NetworkBytes[i + 1] << 16 | data.NetworkBytes[i + 2] << 8 | data.NetworkBytes[i + 3] << 0) << 32 |
+                        (long)(data.NetworkBytes[i + 4] << 24 | data.NetworkBytes[i + 5] << 16 | data.NetworkBytes[i + 6] << 8 | data.NetworkBytes[i + 7] << 0)
                     );
                 }
             }
 
-            return registers.Take(request.NumberOfPoints).ToArray();
+            return registers;
         }
 
         private static void ValidateNumberOfPoints(string argumentName, ushort numberOfPoints, ushort maxNumberOfPoints)
