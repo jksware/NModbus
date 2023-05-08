@@ -241,7 +241,7 @@ namespace NModbus.Extensions.Enron
 				throw new ArgumentException("The length of argument data must be between 1 and 61 inclusive.");
 			}
 
-			master.WriteMultipleRegisters(slaveAddress, startAddress, Convert(data).ToArray());
+			master.WriteMultipleRegisters32(slaveAddress, startAddress, Convert(data).ToArray());
 		}
 
 		private static Task<uint[]> PerformReadRegistersAsync(IModbusMaster master, ReadHoldingInputRegisters32Request request)

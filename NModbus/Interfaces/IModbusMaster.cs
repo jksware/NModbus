@@ -127,22 +127,39 @@ namespace NModbus
 		/// <param name="data">Values to write.</param>
 		void WriteMultipleRegisters(byte slaveAddress, ushort startAddress, ushort[] data);
 
-		/// <summary>
-		///    Asynchronously writes a block of 1 to 123 contiguous registers.
-		/// </summary>
-		/// <param name="slaveAddress">Address of the device to write to.</param>
-		/// <param name="startAddress">Address to begin writing values.</param>
-		/// <param name="data">Values to write.</param>
-		/// <returns>A task that represents the asynchronous write operation.</returns>
-		Task WriteMultipleRegistersAsync(byte slaveAddress, ushort startAddress, ushort[] data);
+        /// <summary>
+        ///    Writes a block of 1 to 123 contiguous 32 bit registers.
+        /// </summary>
+        /// <param name="slaveAddress">Address of the device to write to.</param>
+        /// <param name="startAddress">Address to begin writing values.</param>
+        /// <param name="data">Values to write.</param>
+        void WriteMultipleRegisters32(byte slaveAddress, ushort startAddress, ushort[] data);
 
-		/// <summary>
-		///    Writes a sequence of coils.
-		/// </summary>
-		/// <param name="slaveAddress">Address of the device to write to.</param>
-		/// <param name="startAddress">Address to begin writing values.</param>
-		/// <param name="data">Values to write.</param>
-		void WriteMultipleCoils(byte slaveAddress, ushort startAddress, bool[] data);
+        /// <summary>
+        ///    Asynchronously writes a block of 1 to 123 contiguous registers.
+        /// </summary>
+        /// <param name="slaveAddress">Address of the device to write to.</param>
+        /// <param name="startAddress">Address to begin writing values.</param>
+        /// <param name="data">Values to write.</param>
+        /// <returns>A task that represents the asynchronous write operation.</returns>
+        Task WriteMultipleRegistersAsync(byte slaveAddress, ushort startAddress, ushort[] data);
+
+        /// <summary>
+        ///    Asynchronously writes a block of 1 to 123 contiguous 32 bit registers.
+        /// </summary>
+        /// <param name="slaveAddress">Address of the device to write to.</param>
+        /// <param name="startAddress">Address to begin writing values.</param>
+        /// <param name="data">Values to write.</param>
+        /// <returns>A task that represents the asynchronous write operation.</returns>
+        Task WriteMultipleRegisters32Async(byte slaveAddress, ushort startAddress, ushort[] data);
+
+        /// <summary>
+        ///    Writes a sequence of coils.
+        /// </summary>
+        /// <param name="slaveAddress">Address of the device to write to.</param>
+        /// <param name="startAddress">Address to begin writing values.</param>
+        /// <param name="data">Values to write.</param>
+        void WriteMultipleCoils(byte slaveAddress, ushort startAddress, bool[] data);
 
 		/// <summary>
 		///    Asynchronously writes a sequence of coils.
