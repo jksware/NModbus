@@ -254,7 +254,7 @@ namespace NModbus.Device
 		}
 
         /// <summary>
-        ///     Write a block of 1 to 123 contiguous 32 bit holding registers.
+        ///     Write a block of 1 to 61 contiguous 32 bit holding registers.
         /// </summary>
         /// <param name="slaveAddress">Address of the device to write to.</param>
         /// <param name="startAddress">Address to begin writing values.</param>
@@ -264,6 +264,24 @@ namespace NModbus.Device
             ValidateData("data", data, 123);
 
             var request = new WriteMultipleRegisters32Request(
+                    slaveAddress,
+                    startAddress,
+                    new RegisterCollection(data));
+
+            Transport.UnicastMessage<WriteMultipleRegistersResponse>(request);
+        }
+
+        /// <summary>
+        ///     Write a block of 1 to 30 contiguous 64 bit holding registers.
+        /// </summary>
+        /// <param name="slaveAddress">Address of the device to write to.</param>
+        /// <param name="startAddress">Address to begin writing values.</param>
+        /// <param name="data">Values to write.</param>
+        public void WriteMultipleRegisters64(byte slaveAddress, ushort startAddress, ushort[] data)
+        {
+            ValidateData("data", data, 123);
+
+            var request = new WriteMultipleRegisters64Request(
                     slaveAddress,
                     startAddress,
                     new RegisterCollection(data));
@@ -291,7 +309,7 @@ namespace NModbus.Device
 		}
 
         /// <summary>
-        ///    Asynchronously writes a block of 1 to 123 contiguous 32 bit registers.
+        ///    Asynchronously writes a block of 1 to 61 contiguous 32 bit registers.
         /// </summary>
         /// <param name="slaveAddress">Address of the device to write to.</param>
         /// <param name="startAddress">Address to begin writing values.</param>
@@ -302,6 +320,25 @@ namespace NModbus.Device
             ValidateData("data", data, 123);
 
             var request = new WriteMultipleRegisters32Request(
+                    slaveAddress,
+                    startAddress,
+                    new RegisterCollection(data));
+
+            return PerformWriteRequestAsync<WriteMultipleRegistersResponse>(request);
+        }
+
+        /// <summary>
+        ///    Asynchronously writes a block of 1 to 30 contiguous 32 bit registers.
+        /// </summary>
+        /// <param name="slaveAddress">Address of the device to write to.</param>
+        /// <param name="startAddress">Address to begin writing values.</param>
+        /// <param name="data">Values to write.</param>
+        /// <returns>A task that represents the asynchronous write operation.</returns>
+        public Task WriteMultipleRegisters64Async(byte slaveAddress, ushort startAddress, ushort[] data)
+        {
+            ValidateData("data", data, 123);
+
+            var request = new WriteMultipleRegisters64Request(
                     slaveAddress,
                     startAddress,
                     new RegisterCollection(data));
